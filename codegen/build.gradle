@@ -1,0 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'bintray-release'
+description 'web3j project code generators'
+
+dependencies {
+    compile project(':core'),
+            "com.squareup:javapoet:$javapoetVersion"
+    testCompile "junit:junit:$junitVersion",
+            "org.mockito:mockito-core:$mockitoVersion"
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output
+}
+
+artifacts {
+    archives sourcesJar, javadocJar, testJar
+}
+
+publish {
+    artifactId = 'codegen'
+    userOrg = rootProject.userOrg
+    groupId = rootProject.groupId
+    uploadName = rootProject.uploadName
+    publishVersion = rootProject.publishVersion
+    desc = rootProject.desc
+    website = rootProject.website
+    licences = rootProject.licences
+}

@@ -1,0 +1,73 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.lambdaworksVersion = '1.4.0'
+    ext.spongycastleVersion = '1.54.0.0'
+    ext.jacksonVersion = '2.8.5'
+    ext.javapoetVersion = '1.7.0'
+    ext.jnr_unixsocketVersion = '0.15'
+    ext.okhttpVersion = '3.8.1'
+    ext.rxjavaVersion = '1.2.4'
+    ext.slf4jVersion = '1.7.25'
+
+    // test dependencies
+    ext.equalsverifierVersion = '2.1.7'
+    ext.junitVersion = '4.11'
+    ext.junitBenchmarkVersion = '0.7.2'
+    ext.logbackVersion = '1.2.3'
+    ext.mockitoVersion = '1.10.19'
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.novoda:bintray-release:0.8.1'
+
+        classpath 'io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+apply plugin: 'idea'
+// should only be applied to the root project, see
+// https://github.com/Codearte/gradle-nexus-staging-plugin#multi-project-build
+apply plugin: 'io.codearte.nexus-staging'
+apply plugin: 'jacoco'
+
+allprojects {
+
+    apply plugin: 'jacoco'
+
+    repositories {
+        google()
+        jcenter()
+    }
+
+    jacoco {
+        toolVersion = '0.7.7.201606060606' // See http://www.eclemma.org/jacoco/.
+    }
+
+}
+
+//subprojects {
+//    dependencies {
+//        testCompile "junit:junit:$junitVersion",
+//                "org.mockito:mockito-core:$mockitoVersion"
+//    }
+//}
+
+ext {
+    userOrg = 'alexx'
+    groupId = 'com.alexx.vnsweb3j'
+    uploadName = 'vnsweb3j'
+    publishVersion = '3.3.1-android'
+    desc = 'web3j library for VNS,one project of AMT COMMUNITY '
+    website = 'https://github.com/AlexXGs/vnsweb3j'
+    licences = ['Apache-2.0']
+}
+

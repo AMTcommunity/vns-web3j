@@ -1,0 +1,50 @@
+apply plugin: 'java'
+apply plugin: 'bintray-release'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'application'
+
+description 'web3j command line tools'
+
+dependencies {
+    compile project(':codegen'),
+            project(':infura')
+    runtime "org.slf4j:slf4j-nop:$slf4jVersion"  // prevent logging of the library to the console
+    testCompile project(path: ':crypto', configuration: 'archives'),
+            project(path: ':core', configuration: 'archives')
+    testCompile "junit:junit:$junitVersion",
+            "org.mockito:mockito-core:$mockitoVersion"
+}
+
+// Build command line library release with target distShadowZip
+mainClassName = 'org.web3j.console.Runner'
+applicationName = 'web3j'
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output
+}
+
+artifacts {
+    archives sourcesJar, javadocJar, testJar
+}
+
+publish {
+    artifactId = 'console'
+    userOrg = rootProject.userOrg
+    groupId = rootProject.groupId
+    uploadName = rootProject.uploadName
+    publishVersion = rootProject.publishVersion
+    desc = rootProject.desc
+    website = rootProject.website
+    licences = rootProject.licences
+}
